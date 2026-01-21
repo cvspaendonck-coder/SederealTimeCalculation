@@ -1,75 +1,40 @@
 <header>
+Sedereal time 
 
-<!--
-  <<< Author notes: Course header >>>
-  Include a 1280×640 image, course title in sentence case, and a concise description in emphasis.
-  In your repository settings: enable template repository, add your 1280×640 social image, auto delete head branches.
-  Add your open source license, GitHub uses MIT license.
--->
-
-# Introduction to GitHub
-
-_Get started using GitHub in less than an hour._
+__Calculate sedereal time from NET time __
 
 </header>
 
-<!--
-  <<< Author notes: Step 1 >>>
-  Choose 3-5 steps for your course.
-  The first step is always the hardest, so pick something easy!
-  Link to docs.github.com for further explanations.
-  Encourage users to open new tabs for steps!
--->
+## reason why
+Astronomers need to find the position of objects in the sky. Though the position of objects is known , they are not easy to find as the earth is rotating.
 
-## Step 1: Create a branch
+For calculating the exact posotions of where my telecope was looking at I needed: Azimut, Altitude, location, exact time. 
+I have already fitted my dobson telscope with Azumut and Altitude sensors. Also locatiob (longitide and latitude) and position of the earth rotation. This position is determined by sedereal time. 
+"Sidereal time is a "time scale that is based on Earth's rate of rotation measured relative to the fixed stars".
+https://en.wikipedia.org/wiki/Sidereal_time#:~:text=Sidereal%20time%20is%20a%20%22time,axis%20relative%20to%20the%20stars.
+A sidereal day on Earth is approximately 86164.0905 seconds (23 h 56 min 4.0905 s or 23.9344696 h).
+ This project is to determine sedereal time 
+ 
+ **##HowW**  
+ Net time has as reference 1970-01-01 00:00:00 hrs and keepps track of seconds since that starting point.
+ At  https://aa.usno.navy.mil/data/siderealtime we can get the exact sedereal time at the reference time
+ With also the ration sedereal day / (julian) day 
+ we can calculate sedereal time now
 
-_Welcome to "Introduction to GitHub"! :wave:_
+**##Procedure**
+ - 0 preparation:
+     Set fixed parameters:
+         sederal day / julian day ratio
+         sedereal time at net reference date-time
+     Define struct sedereal ( decimal, hour, minute, second) to store found valus 
+ - 1 Get GMT time from the internet
+     use the epoch time = seconds passed since 1970-01-01 00:00:00 hrs
+ - 2 convert epoch time to decimal days
+ - 3 remove whole days, remain only fraction
+ - 4 convert to decimal hours  = decimal sedereal time
+ - 5 extract hours, minutes and seconds
 
-**What is GitHub?**: GitHub is a collaboration platform that uses _[Git](https://docs.github.com/get-started/quickstart/github-glossary#git)_ for versioning. GitHub is a popular place to share and contribute to [open-source](https://docs.github.com/get-started/quickstart/github-glossary#open-source) software.
-<br>:tv: [Video: What is GitHub?](https://www.youtube.com/watch?v=pBy1zgt0XPc)
-
-**What is a repository?**: A _[repository](https://docs.github.com/get-started/quickstart/github-glossary#repository)_ is a project containing files and folders. A repository tracks versions of files and folders. For more information, see "[About repositories](https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories)" from GitHub Docs.
-
-**What is a branch?**: A _[branch](https://docs.github.com/en/get-started/quickstart/github-glossary#branch)_ is a parallel version of your repository. By default, your repository has one branch named `main` and it is considered to be the definitive branch. Creating additional branches allows you to copy the `main` branch of your repository and safely make any changes without disrupting the main project. Many people use branches to work on specific features without affecting any other parts of the project.
-
-Branches allow you to separate your work from the `main` branch. In other words, everyone's work is safe while you contribute. For more information, see "[About branches](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches)".
-
-**What is a profile README?**: A _[profile README](https://docs.github.com/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme)_ is essentially an "About me" section on your GitHub profile where you can share information about yourself with the community on GitHub.com. GitHub shows your profile README at the top of your profile page. For more information, see "[Managing your profile README](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme)".
-
-![profile-readme-example](/images/profile-readme-example.png)
-
-### :keyboard: Activity: Your first branch
-
-1. Open a new browser tab and navigate to your newly made repository. Then, work on the steps in your second tab while you read the instructions in this tab.
-2. Navigate to the **< > Code** tab in the header menu of your repository.
-
-   ![code-tab](/images/code-tab.png)
-
-3. Click on the **main** branch drop-down.
-
-   ![main-branch-dropdown](/images/main-branch-dropdown.png)
-
-4. In the field, name your branch `my-first-branch`. In this case, the name must be `my-first-branch` to trigger the course workflow.
-5. Click **Create branch: my-first-branch** to create your branch.
-
-   ![create-branch-button](/images/create-branch-button.png)
-
-   The branch will automatically switch to the one you have just created.
-   The **main** branch drop-down bar will reflect your new branch and display the new branch name.
-
-6. Wait about 20 seconds then refresh this page (the one you're following instructions from). [GitHub Actions](https://docs.github.com/en/actions) will automatically update to the next step.
-
-<footer>
-
-<!--
-  <<< Author notes: Footer >>>
-  Add a link to get support, GitHub status page, code of conduct, license link.
--->
-
----
-
-Get help: [Post in our discussion board](https://github.com/orgs/skills/discussions/categories/introduction-to-github) &bull; [Review the GitHub status page](https://www.githubstatus.com/)
-
-&copy; 2024 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
-
-</footer>
+**Limitations**
+application is now for ESP8266 but can easy be adapted for other microProcessors
+For accurate calculations we need 32 bit(long)  integer and double float. 
+Be aware that ATmega328P based systems handle long int and double as int and float and lack accuracy 
