@@ -1,9 +1,8 @@
 <header>
-Sedereal time 
 
-__Calculate sedereal time from NET time __
-
+# Sedereal time
 </header>
+Calculate sedereal time from NET time
 
 ## reason why
 Astronomers need to find the position of objects in the sky. Though the position of objects is known , they are not easy to find as the earth is rotating.
