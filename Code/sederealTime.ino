@@ -18,14 +18,14 @@ App calculates selesteal time used for calculatio Right Acention and Declination
 
 0 preparation: 
   Set fixed parameters: 
-    - sederal day / julian day ratio 
-    - reference sedereal time at 01-01-2026
+    - sideral day / julian day ratio 
+    - reference sidereal time at 01-01-2026
     - time betweeen epoch time 01-01-1970 and 01-01-2026
-  Define struct sedereal ( decimal, hour, minute, second) to store found valus
+  Define struct sidereal ( decimal, hour, minute, second) to store found valus
 1 Get Epoch time = seconds passed since 1970-01-01 00:00:00 hrs
 2 convert epoch time to decimal days
 3 remove whole days, remain only fraction
-4 convert to decimal hours = decimal sedereal time
+4 convert to decimal hours = decimal sidereal time
 5 extract hours, minutes and seconds
 
 Limitations application is now for ESP8266 but can easy be adapted for other microProcessors 
@@ -44,7 +44,7 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", 0, 60000); // UTC timezone, update 
 const char* ssid = "telenet-450A4";
 const char* password = "BryonyatParis";
 
-// global struct sedereal time
+// global struct sidereal time
 struct sedTime {
   double dec; 
   int hour; 
@@ -52,7 +52,7 @@ struct sedTime {
   int sec;
   };
 
-sedTime sedereal;
+sedTime sidereal;
 
 // ********************************************
 void setup() {
@@ -76,32 +76,32 @@ void setup() {
 }
 // ********************************************
 void loop() {
-  calculateSederealTime();
-    Serial.println( "Sedereal decimal time = " + String(sedereal.dec) );
-    Serial.println( "Sedereal time = " + String(sedereal.hour) 
-                                     + ":" + String(sedereal.min) 
-                                     + ":" + String(sedereal.sec) );    
+  calculatesiderealTime();
+    Serial.println( "sidereal decimal time = " + String(sidereal.dec) );
+    Serial.println( "sidereal time = " + String(sidereal.hour) 
+                                     + ":" + String(sidereal.min) 
+                                     + ":" + String(sidereal.sec) );    
   delay(1000);
 }
 
-void calculateSederealTime() {
+void calculatesiderealTime() {
   // temporary string for formatted sereal output
   char tempStr[30];
 
-  // *************  sedereal reference data data lolcal used only
+  // *************  sidereal reference data data lolcal used only
   // https://www.epochconverter.com/ : 
   // Epoch timestamp              @01-01-2026): 
   unsigned long  refEpochTime = 1767139200; //  sec
   // https://www.walter-fendt.de/html5/aen/siderealtime_en.htm
   // Greenwich Mean Sidereal Time @2026-01-01 6 h 42 min 38.6 s = 6.71072 h
-  // double refSederealTime = 6.71072222222222;  // hour
-  double refSederealTime = 6.64527777777778;
+  // double refsiderealTime = 6.71072222222222;  // hour
+  double refsiderealTime = 6.64527777777778;
 
-  // https://en.wikipedia.org/wiki/Sidereal_time : sedereal day = 23h 56min 4.0905s
-  // sederealFactor: sedereal_day / julian_day = 0.997269565972222
-  // v2.0-->  double sederalFacor     = 0.9972695648031844;  
-  double sederalFacor     = 0.997269565972222;  
-  //double sederalFacor     = 0.9972695648031844;  
+  // https://en.wikipedia.org/wiki/Sidereal_time : sidereal day = 23h 56min 4.0905s
+  // siderealFactor: sidereal_day / julian_day = 0.997269565972222
+  // v2.0-->  double sideralFacor     = 0.9972695648031844;  
+  double sideralFacor     = 0.997269565972222;  
+  //double sideralFacor     = 0.9972695648031844;  
   //  value calibrated to 1 sec dev with reference https://www.localsiderealtime.com/  18-1-2026
   // *******************************************
 
@@ -111,13 +111,13 @@ void calculateSederealTime() {
   // seconds elapsed since start epoch time 00:00:00 UTC on 1 January 1970 
   unsigned long epochTime = timeClient.getEpochTime();
       Serial.println("Epoch time (sec):" + String(epochTime) );
-  // calculate hours since sedereal reference dat-time
+  // calculate hours since sidereal reference dat-time
 
-  // Caculate Sedereal time 
+  // Caculate sidereal time 
   
-  double dDays = ( double(epochTime - refEpochTime) /sederalFacor ) /3600/24; 
-  // add sedereal time (hours) at reference time 1970 in decimal days
-  dDays = dDays + refSederealTime/24;  
+  double dDays = ( double(epochTime - refEpochTime) /sideralFacor ) /3600/24; 
+  // add sidereal time (hours) at reference time 1970 in decimal days
+  dDays = dDays + refsiderealTime/24;  
       snprintf(tempStr, sizeof(tempStr), "Days since 1-1-1970: %lf",dDays);
       Serial.println( tempStr);
 
@@ -127,9 +127,9 @@ void calculateSederealTime() {
   double dSec   = (dMin   - floor(dMin)   )*60;
 
   // convert to integer hours min and sec
-  sedereal.dec  = dHours; 
-  sedereal.hour = int(dHours);
-  sedereal.min  = int(dMin);
-  sedereal.sec  = int(dSec); 
+  sidereal.dec  = dHours; 
+  sidereal.hour = int(dHours);
+  sidereal.min  = int(dMin);
+  sidereal.sec  = int(dSec); 
 }
 
